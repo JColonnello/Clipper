@@ -11,12 +11,35 @@
 	<SelfContained>true</SelfContained>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+	<Title>Clipper</Title>
+	<Authors>Chosedone</Authors>
+	<Description>Una hermosa utilidad autocontenida para clippear los mejores momentos y subirlos a Discord</Description>
+	<Copyright>Chosedone 2024. GNU v3</Copyright>
+	<PackageIcon>nautilus.png</PackageIcon>
+	<RepositoryUrl>https://github.com/JColonnello/Clipper</RepositoryUrl>
+	<PackageProjectUrl>https://github.com/JColonnello/Clipper</PackageProjectUrl>
+	<AssemblyVersion>1.0</AssemblyVersion>
+	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="*.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Pictures\nautilus.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
