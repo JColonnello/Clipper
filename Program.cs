@@ -61,6 +61,8 @@ if (args.Length < 1)
 {
     Console.Error.WriteLine("Uso: .\\Clipper.exe <video>");
     Console.Error.WriteLine("Sino, arrastrá el video al Clipper.exe");
+    Console.Error.WriteLine("Presiona una tecla para salir...");
+    Console.ReadKey();
     return 1;
 }
 string inputVideo = args[0];
