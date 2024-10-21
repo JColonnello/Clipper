@@ -87,7 +87,7 @@ string name = Console.ReadLine() ?? "clip";
 name += ".webm";
 
 const double maxFile = 10 * 8 * 1000;
-double kbit = maxFile / (end ?? duration - start ?? TimeSpan.Zero).TotalSeconds;
+double kbit = maxFile / ((end ?? duration) - (start ?? TimeSpan.Zero)).TotalSeconds;
 
 Process ffmpegProcess;
 using Stream stdout = Console.OpenStandardOutput();
