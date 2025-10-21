@@ -9,7 +9,6 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <PublishSingleFile>true</PublishSingleFile>
 	<SelfContained>true</SelfContained>
-	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
 	<Title>Clipper</Title>
 	<Authors>Chosedone</Authors>
@@ -23,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="*.exe">
+    <Content Include="*.exe" Condition=" '$(OS)' == 'Windows_NT' ">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

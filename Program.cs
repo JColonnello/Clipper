@@ -5,7 +5,10 @@ using System.Diagnostics;
 static Task<int> CallProcess(string exe, out Process process, params string[] args)
 {
     Process proc = process = new();
-    proc.StartInfo.FileName = Path.Combine(AppContext.BaseDirectory, exe);
+    proc.StartInfo.FileName = exe;
+#if OS_WINDOWS
+    proc.StartInfo.EnvironmentVariables["PATH"] += $";{AppContext.BaseDirectory}";
+#endif
     proc.StartInfo.UseShellExecute = false;
     proc.StartInfo.RedirectStandardOutput = true;
     foreach (string arg in args)
@@ -14,8 +17,8 @@ static Task<int> CallProcess(string exe, out Process process, params string[] ar
 
     return proc.WaitForExitAsync().ContinueWith(_ => proc.ExitCode);
 }
-static Task<int> CallFFMpeg(out Process process, params string[] args) => CallProcess("ffmpeg.exe", out process, args);
-static Task<int> CallFFProbe(out Process process, params string[] args) => CallProcess("ffprobe.exe", out process, args);
+static Task<int> CallFFMpeg(out Process process, params string[] args) => CallProcess("ffmpeg", out process, args);
+static Task<int> CallFFProbe(out Process process, params string[] args) => CallProcess("ffprobe", out process, args);
 
 static async Task<TimeSpan> GetLength(string file)
 {
