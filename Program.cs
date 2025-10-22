@@ -86,21 +86,25 @@ Console.Write("Nombre del clip: ");
 string name = Console.ReadLine() ?? "clip";
 name += ".webm";
 
-double kbit = maxFile / ((end ?? duration) - (start ?? TimeSpan.Zero)).TotalSeconds;
 const double maxFileMargin = 0.95;
 const double maxFile = 10 * 8 * 1024 * maxFileMargin;
+// reserve 2% of file size for audio
+const double reservedAudioSize = maxFile * .02;
+const double reservedVideoSize = maxFile - reservedAudioSize;
+double kbit = reservedVideoSize / ((end ?? duration) - (start ?? TimeSpan.Zero)).TotalSeconds;
+double audiokbit = reservedAudioSize / ((end ?? duration) - (start ?? TimeSpan.Zero)).TotalSeconds;
 
 Process ffmpegProcess;
 using Stream stdout = Console.OpenStandardOutput();
 
 string[] startStr = start is not null ? ["-ss", FormatTimestamp(start.Value)] : [];
 string[] endStr = end is not null ? ["-to", FormatTimestamp(end.Value)] : [];
-Task exited = CallFFMpeg(out ffmpegProcess, ["-i", inputVideo, ..startStr, ..endStr, .. $"-c:v libvpx-vp9 -b:v {kbit}K -pass 1 -an -f null NUL".Split(' ')]);
+Task exited = CallFFMpeg(out ffmpegProcess, ["-i", inputVideo, ..startStr, ..endStr, .. $"-c:v libvpx-vp9 -b:v {kbit}K -c:a libopus -b:a {audiokbit}K -pass 1 -f null NUL".Split(' ')]);
 await ffmpegProcess.StandardOutput.BaseStream.CopyToAsync(stdout);
 await exited;
 ffmpegProcess.Dispose();
 
-exited = CallFFMpeg(out ffmpegProcess, ["-i", inputVideo, .. startStr, ..endStr, .. $"-c:v libvpx-vp9 -b:v {kbit}K -pass 2 -c:a libopus".Split(' '), name]);
+exited = CallFFMpeg(out ffmpegProcess, ["-i", inputVideo, .. startStr, ..endStr, .. $"-c:v libvpx-vp9 -b:v {kbit}K -c:a libopus -b:a {audiokbit}K -pass 2".Split(' '), name]);
 await ffmpegProcess.StandardOutput.BaseStream.CopyToAsync(stdout);
 await exited;
 ffmpegProcess.Dispose();
