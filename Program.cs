@@ -91,8 +91,10 @@ const double maxFile = 10 * 8 * 1024 * maxFileMargin;
 // reserve 2% of file size for audio
 const double reservedAudioSize = maxFile * .02;
 const double reservedVideoSize = maxFile - reservedAudioSize;
-double kbit = reservedVideoSize / ((end ?? duration) - (start ?? TimeSpan.Zero)).TotalSeconds;
-double audiokbit = reservedAudioSize / ((end ?? duration) - (start ?? TimeSpan.Zero)).TotalSeconds;
+
+TimeSpan outputDuration = (end ?? duration) - (start ?? TimeSpan.Zero);
+double kbit = reservedVideoSize / outputDuration.TotalSeconds;
+double audiokbit = reservedAudioSize / outputDuration.TotalSeconds;
 
 Process ffmpegProcess;
 using Stream stdout = Console.OpenStandardOutput();
