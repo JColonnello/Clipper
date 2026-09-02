@@ -87,7 +87,7 @@ string name = Console.ReadLine() ?? "clip";
 name += ".webm";
 
 const double maxFileMargin = 0.95;
-const double maxFile = 10 * 8 * 1024 * maxFileMargin;
+const double maxFile = 20 * 8 * 1024 * maxFileMargin;
 // reserve 2% of file size for audio
 const double reservedAudioSize = maxFile * .02;
 const double reservedVideoSize = maxFile - reservedAudioSize;
